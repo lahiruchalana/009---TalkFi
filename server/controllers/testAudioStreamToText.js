@@ -48,8 +48,8 @@ exports.getTextOfSpeech = async(req, res) => {
     
     console.log('Listening, press Ctrl+C to stop.');
 
+    console.log(recorder)
     res.json({msg: recorder})
-    console.log(recognizeStream)
 
   } catch (err) {
     return res.status(500).json({msg: err.message})

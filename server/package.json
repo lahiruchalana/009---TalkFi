@@ -14,5 +14,9 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "node-record-lpcm16": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-plugin-react": "^7.26.1"
   }
 }
