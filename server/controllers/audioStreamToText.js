@@ -6,9 +6,6 @@ const speech = require('@google-cloud/speech');
 // Creates a client
 const client = new speech.SpeechClient();
 
-/**
- * TODO(developer): Uncomment the following lines before running the sample.
- */
 const encoding = 'LINEAR16';
 const sampleRateHertz = 16000;
 const languageCode = 'en-US';
