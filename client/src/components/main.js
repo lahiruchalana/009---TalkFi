@@ -1,49 +1,25 @@
-import React from 'react';
-
-// import music from './../../resources/audio.raw'
-
-// import fs from 'fs';
-// import speech from '@google-cloud/speech';
-
+import React, { useState, useEffect } from 'react';
+import axios from "../axios"
+import requests from "../api/index"
 
 const main = () => {
+    const [text, setText] = useState([]);
 
+    useEffect(() => {
+        async function fetchData() {
+            const request = await axios.get(requests.fetchAudioStreamToText);
+            console.log(request.data);
+            setText(request.data);
 
-    // // Creates a client
-    // const client = new speech.SpeechClient();
+            return request.data;
+        }
 
-    // const filename = './resources/audio3.raw';
-    // const encoding = 'LINEAR16';
-    // const sampleRateHertz = 16000;
-    // const languageCode = 'en-US';
-
-    // const config = {
-    // encoding: encoding,
-    // sampleRateHertz: sampleRateHertz,
-    // languageCode: languageCode,
-    // };
-    // const audio = {
-    // content: fs.readFileSync(filename).toString('base64'),
-    // };
-
-    // const request = {
-    // config: config,
-    // audio: audio,
-    // };
-
-    // async function handling() {
-    //     const [operation] = await client.longRunningRecognize(request);
-    //     const [response] = await operation.promise();
-    //     const transcription = response.results
-    //     .map(result => result.alternatives[0].transcript)
-    //     .join('\n');
-    //     console.log(`Transcription: ${transcription}`);
-    // }
-    
-    // handling()
+        fetchData();
+    }, [requests.fetchAudioStreamToText]);
 
     return ( 
         <div>
+            <h1>{text}</h1>
             <button>Hello</button>
         </div>
     );

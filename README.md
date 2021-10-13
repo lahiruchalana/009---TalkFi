@@ -9,3 +9,11 @@ Can not use Speech-To-Text API in React.js (Server side) so i used Node.js --> E
 # Google API Keys
 
 Make Sure to set environment of Json file of Google API credentals. set environments in server folder (not in client folder).
+
+# Run Client
+
+npm start
+
+# Run Server
+
+npm run server

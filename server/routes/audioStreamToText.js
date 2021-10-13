@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var { getTextOfSpeech } = require('../controllers/testAudioStreamToText.js')
-var { speechToText } = require('../controllers/testSpeechToText.js')
+// var { speechToText } = require('../controllers/testSpeechToText.js')
 
 // /* GET home page. */
 // router.get('/', function(req, res, next) {
