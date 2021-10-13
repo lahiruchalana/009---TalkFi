@@ -1,0 +1,21 @@
+.container {
+  margin-top: 40px;
+}
+
+.questionarea {
+  margin-top: 40px;
+}
+
+textarea {
+  height: 50px;
+}
+
+button {
+  height: 40px;
+}
+
+.confirm-btns {
+  margin-top: 30px;
+  margin-left: 600px;
+  margin-right: auto;
+}
