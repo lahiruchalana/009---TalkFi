@@ -9,6 +9,8 @@ exports.getTextOfSpeech = async(req, res) => {
     const encoding = 'LINEAR16';
     const sampleRateHertz = 16000;
     const languageCode = 'en-US';
+
+    let speechToTextValue = []
     
     const request = {
       config: {
@@ -23,12 +25,17 @@ exports.getTextOfSpeech = async(req, res) => {
     const recognizeStream = client
       .streamingRecognize(request)
       .on('error', console.error)
-      .on('data', data =>
-        process.stdout.write(
-          data.results[0] && data.results[0].alternatives[0]
-            ? `Transcription: ${data.results[0].alternatives[0].transcript}\n`
-            : '\n\nReached transcription time limit, press Ctrl+C\n'
-        )
+      .on('data', data => { 
+        function getText() {
+          if(data.results[0] && data.results[0].alternatives[0]) {
+            console.log(`Transcription: ${data.results[0].alternatives[0].transcript}\n`)
+            res.json(`${data.results[0].alternatives[0].transcript}`)
+          } else {
+            console.log('\n\nReached transcription time limit, press Ctrl+C\n')
+          }
+        }
+        getText()
+      }
       );
     
     // Start recording and send the microphone input to the Speech API.
@@ -48,8 +55,8 @@ exports.getTextOfSpeech = async(req, res) => {
     
     console.log('Listening, press Ctrl+C to stop.');
 
-    console.log(recorder)
-    res.json("it's working")
+    console.log(recorder.data)
+    // res.json({speechToTextValue})
 
   } catch (err) {
     return res.status(500).json({msg: err.message})
