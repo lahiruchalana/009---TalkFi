@@ -8,18 +8,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css'
 
 const main = () => {
-    const [text, setText] = useState([]);
-
-    useEffect(() => {
+    let [text, setText] = useState([]);
+    
+    useEffect(() => {           
         async function fetchData() {
             const request = await axios.get(requests.fetchAudioStreamToText);
             console.log(request.data);
             setText(request.data);
-
-            return request.data;
+            return request.data; 
         }
 
         fetchData();
+        
+    
     }, [requests.fetchAudioStreamToText]);
 
     return ( 
@@ -31,14 +32,14 @@ const main = () => {
                         <h4>Your Message?</h4>
                         <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
                         <h2>{text}</h2>
-                        <Button id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
+                        <Button onClick={() => {setTextArea(1)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
                     
                     <div class="questionarea">
                         <h4>Your Name?</h4>
                         <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <Button id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
+                        <Button onClick={() => {setTextArea(2)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
 

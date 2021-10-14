@@ -9,8 +9,6 @@ exports.getTextOfSpeech = async(req, res) => {
     const encoding = 'LINEAR16';
     const sampleRateHertz = 16000;
     const languageCode = 'en-US';
-
-    let speechToTextValue = []
     
     const request = {
       config: {
@@ -30,6 +28,7 @@ exports.getTextOfSpeech = async(req, res) => {
           if(data.results[0] && data.results[0].alternatives[0]) {
             console.log(`Transcription: ${data.results[0].alternatives[0].transcript}\n`)
             res.json(`${data.results[0].alternatives[0].transcript}`)
+            // res.json(`testing`)
           } else {
             console.log('\n\nReached transcription time limit, press Ctrl+C\n')
           }
@@ -55,7 +54,7 @@ exports.getTextOfSpeech = async(req, res) => {
     
     console.log('Listening, press Ctrl+C to stop.');
 
-    console.log(recorder.data)
+    // console.log(recorder.data)
     // res.json({speechToTextValue})
 
   } catch (err) {
