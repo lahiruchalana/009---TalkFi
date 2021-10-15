@@ -28,6 +28,24 @@ const main = () => {
             setTextYourName(request.data);
             console.log("its working textYourName")             
             return request.data;
+        } else if (queqstionValue == 3) {
+            const request = await axios.get(URI);
+            console.log(request.data);
+            setTextYourName(request.data);
+            console.log("its working textYourName")             
+            return request.data;
+        } else if (queqstionValue == 4) {
+            const request = await axios.get(URI);
+            console.log(request.data);
+            setTextYourName(request.data);
+            console.log("its working textYourName")             
+            return request.data;
+        } else if (queqstionValue == 5) {
+            const request = await axios.get(URI);
+            console.log(request.data);
+            setTextYourName(request.data);
+            console.log("its working textYourName")             
+            return request.data;
         } else {
             console.log("success")
         }
@@ -61,14 +79,16 @@ const main = () => {
                     <div class="questionarea">
                         <h4>Your Address?</h4>
                         <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <Button id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
+                        <h2>{textYourAddress}</h2>
+                        <Button onClick={() => {setQuestion(3)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
                     
                     <div class="questionarea">
                         <h4>Your Designation?</h4>
                         <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <Button id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
+                        <h2>{textYourDesignation}</h2>
+                        <Button onClick={() => {setQuestion(4)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
 
