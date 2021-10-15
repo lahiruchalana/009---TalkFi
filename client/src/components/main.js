@@ -8,20 +8,34 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css'
 
 const main = () => {
-    let [text, setText] = useState([]);
+    let [textYourMessage, setTextYourMessage] = useState([]);
+    let [textYourName, setTextYourName] = useState([]);
+    let [question, setQuestion] = useState(0)
+    
+    async function fetchData(URI, queqstionValue) {
+        if (queqstionValue == 0) {
+            setTextYourMessage("start your speech");
+            setTextYourName("start your speech");
+        } else if (queqstionValue == 1) {
+            const request = await axios.get(URI);
+            console.log(request.data);
+            setTextYourMessage(request.data);
+            console.log("its working textYourMessage")
+            return request.data;             
+        } else if (queqstionValue == 2) {
+            const request = await axios.get(URI);
+            console.log(request.data);
+            setTextYourName(request.data);
+            console.log("its working textYourName")             
+            return request.data;
+        } else {
+            console.log("success")
+        }
+    }
     
     useEffect(() => {           
-        async function fetchData() {
-            const request = await axios.get(requests.fetchAudioStreamToText);
-            console.log(request.data);
-            setText(request.data);
-            return request.data; 
-        }
-
-        fetchData();
-        
-    
-    }, [requests.fetchAudioStreamToText]);
+        fetchData(requests.fetchAudioStreamToText, question);
+    }, [requests.fetchAudioStreamToText, question]);
 
     return ( 
         <div>
@@ -31,15 +45,16 @@ const main = () => {
                     <div class="questionarea">
                         <h4>Your Message?</h4>
                         <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <h2>{text}</h2>
-                        <Button onClick={() => {setTextArea(1)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
+                        <h2>{textYourMessage}</h2>
+                        <Button onClick={() => {setQuestion(1)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
                     
                     <div class="questionarea">
                         <h4>Your Name?</h4>
                         <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <Button onClick={() => {setTextArea(2)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
+                        <h2>{textYourName}</h2>
+                        <Button onClick={() => {setQuestion(2)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
 
