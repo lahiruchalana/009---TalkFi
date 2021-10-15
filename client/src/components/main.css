@@ -19,3 +19,21 @@ button {
   margin-left: 600px;
   margin-right: auto;
 }
+
+h4 {
+  margin-left: -550px;
+}
+
+Button {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+h1 {
+  margin-left: -250px;
+}
+
+.btn-group {
+  margin-left: 650px;
+  margin-top: -120px;
+}

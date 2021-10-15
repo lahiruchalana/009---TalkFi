@@ -10,12 +10,16 @@ import './main.css'
 const main = () => {
     let [textYourMessage, setTextYourMessage] = useState([]);
     let [textYourName, setTextYourName] = useState([]);
+    let [textYourAddress, setTextYourAddress] = useState([]);
+    let [textYourDesignation, setTextYourDesignation] = useState([]);
     let [question, setQuestion] = useState(0)
     
     async function fetchData(URI, queqstionValue) {
         if (queqstionValue == 0) {
-            setTextYourMessage("start your speech");
-            setTextYourName("start your speech");
+            setTextYourMessage("You can answer by typing or using voice recoder by clicking start");
+            setTextYourName("You can answer by typing or using voice recoder by clicking start");
+            setTextYourAddress("You can answer by typing or using voice recoder by clicking start");
+            setTextYourDesignation("You can answer by typing or using voice recoder by clicking start");
         } else if (queqstionValue == 1) {
             const request = await axios.get(URI);
             console.log(request.data);
@@ -31,23 +35,17 @@ const main = () => {
         } else if (queqstionValue == 3) {
             const request = await axios.get(URI);
             console.log(request.data);
-            setTextYourName(request.data);
-            console.log("its working textYourName")             
+            setTextYourAddress(request.data);
+            console.log("its working textYourAddress")             
             return request.data;
         } else if (queqstionValue == 4) {
             const request = await axios.get(URI);
             console.log(request.data);
-            setTextYourName(request.data);
-            console.log("its working textYourName")             
-            return request.data;
-        } else if (queqstionValue == 5) {
-            const request = await axios.get(URI);
-            console.log(request.data);
-            setTextYourName(request.data);
-            console.log("its working textYourName")             
+            setTextYourDesignation(request.data);
+            console.log("its working textYourDesignation")             
             return request.data;
         } else {
-            console.log("success")
+            console.log("invalid question value")
         }
     }
     
@@ -58,36 +56,44 @@ const main = () => {
     return ( 
         <div>
             <div class="container">
-                <h1><strong>TalkingFill............</strong></h1>
+                <h1><strong>TalkingFill...............................</strong></h1>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Language
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Separated link</a>
+                    </div>
+                </div>
                 <Form> 
                     <div class="questionarea">
                         <h4>Your Message?</h4>
-                        <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <h2>{textYourMessage}</h2>
+                        <Form.Control  id="note-textarea" placeholder={textYourMessage} rows="6"></Form.Control>
                         <Button onClick={() => {setQuestion(1)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
                     
                     <div class="questionarea">
                         <h4>Your Name?</h4>
-                        <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <h2>{textYourName}</h2>
+                        <Form.Control  id="note-textarea" placeholder={textYourName} rows="6"></Form.Control>
                         <Button onClick={() => {setQuestion(2)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
 
                     <div class="questionarea">
                         <h4>Your Address?</h4>
-                        <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <h2>{textYourAddress}</h2>
+                        <Form.Control  id="note-textarea" placeholder={textYourAddress} rows="6"></Form.Control>
                         <Button onClick={() => {setQuestion(3)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
                     
                     <div class="questionarea">
                         <h4>Your Designation?</h4>
-                        <Form.Control  id="note-textarea" placeholder="You can answer by typing or using voice recognition." rows="6"></Form.Control>
-                        <h2>{textYourDesignation}</h2>
+                        <Form.Control  id="note-textarea" placeholder={textYourDesignation} rows="6"></Form.Control>
                         <Button onClick={() => {setQuestion(4)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
