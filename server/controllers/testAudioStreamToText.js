@@ -1,7 +1,6 @@
 const recorder = require('node-record-lpcm16');
 const speech = require('@google-cloud/speech');
 
-
 exports.getTextOfSpeech = async(req, res) => {
   try {
 
@@ -38,14 +37,12 @@ exports.getTextOfSpeech = async(req, res) => {
       );
     
     // Start recording and send the microphone input to the Speech API.
-    // Ensure SoX is installed, see https://www.npmjs.com/package/node-record-lpcm16#dependencies
     recorder
       .record({
         sampleRateHertz: sampleRateHertz,
         threshold: 0,
-        // Other options, see https://www.npmjs.com/package/node-record-lpcm16#options
         verbose: false,
-        recordProgram: 'rec', // Try also "arecord" or "sox"
+        recordProgram: 'rec', 
         silence: '10.0',
       })
       .stream()
@@ -56,6 +53,51 @@ exports.getTextOfSpeech = async(req, res) => {
 
     // console.log(recorder.data)
     // res.json({speechToTextValue})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const socket = new WebSocket("ws://localhost:4000");
+
+    // socket.onopen = () => {
+    //   socket.send("Hello!");
+    // };
+    
+    // socket.onmessage = (data) => {
+    //   console.log(data);
+    // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   } catch (err) {
     return res.status(500).json({msg: err.message})

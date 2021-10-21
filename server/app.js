@@ -7,6 +7,7 @@ var Cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var audioStreamToTextRouter = require('./routes/audioStreamToText');
+const socket = require('socket.io');////////////////////////// new added ///////////////////////////////////
 
 var app = express();
 
@@ -21,9 +22,32 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(Cors());
 
+
+
+
+
+
+////////////////////////// new added ///////////////////////////////////
+const server = app.listen(9000,() => {
+  console.log('Started in 9000');
+});
+
+const io = socket(server);
+
+io.sockets.on('connection', (socket) => {
+  console.log(`new connection id: ${socket.id}`);
+  sendData(socket);
+})
+////////////////////////// new added ///////////////////////////////////
+
+
+
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/audioStreamToText', audioStreamToTextRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

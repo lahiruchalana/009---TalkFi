@@ -7,6 +7,8 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css'
 
+import io from "socket.io"
+
 const main = () => {
     let [textYourMessage, setTextYourMessage] = useState([]);
     let [textYourName, setTextYourName] = useState([]);
@@ -53,6 +55,47 @@ const main = () => {
         fetchData(requests.fetchAudioStreamToText, question);
     }, [requests.fetchAudioStreamToText, question]);
 
+
+
+
+
+
+
+
+
+
+
+
+    // const socket = io("ws://localhost:4000");
+
+    // socket.on("connect", () => {
+    // // either with send()
+    // socket.send("Hello!");
+
+    // // or with emit() and custom event names
+    // socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
+    // });
+
+    // // handle the event sent with socket.send()
+    // socket.on("message", data => {
+    // console.log(data);
+    // });
+
+    // // handle the event sent with socket.emit()
+    // socket.on("greetings", (elem1, elem2, elem3) => {
+    // console.log(elem1, elem2, elem3);
+    // });
+
+
+
+
+
+
+
+
+
+
+
     return ( 
         <div>
             <div class="container">
@@ -62,9 +105,9 @@ const main = () => {
                         Language
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="#">සිංහල</a>
+                        <a class="dropdown-item" href="#">English</a>
+                        <a class="dropdown-item" href="#">தமிழ்</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Separated link</a>
                     </div>
