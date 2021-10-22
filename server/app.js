@@ -7,7 +7,8 @@ var Cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var audioStreamToTextRouter = require('./routes/audioStreamToText');
-const socket = require('socket.io');////////////////////////// new added ///////////////////////////////////
+const server = require('http').createServer();////////////////////////// new added ///////////////////////////////////
+const os = require('os-utils');////////////////////////// new added ///////////////////////////////////
 
 var app = express();
 
@@ -28,16 +29,31 @@ app.use(Cors());
 
 
 ////////////////////////// new added ///////////////////////////////////
-const server = app.listen(9000,() => {
+const io = require('socket.io')(server, {
+  transports: ['websocket', 'polling']
+});
+
+server.listen(9000, () => {
   console.log('Started in 9000');
 });
 
-const io = socket(server);
+///////////////////////////////////////////////////////////////////////////////////
+let tick = 0;
+// 1. listen for socket connections
+io.on('connection', client => {
+  setInterval(() => {
+    // 2. every second, emit a 'cpu' event to user
+    os.cpuUsage(cpuPercent => {
+      client.emit('cpu', {
+        name: tick++,
+        value: cpuPercent
+      });
+    });
+  }, 1000);
+});
+///////////////////////////////////////////////////////////////////////////////////
 
-io.sockets.on('connection', (socket) => {
-  console.log(`new connection id: ${socket.id}`);
-  sendData(socket);
-})
+
 ////////////////////////// new added ///////////////////////////////////
 
 

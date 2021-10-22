@@ -7,7 +7,11 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css'
 
-import io from "socket.io"
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:9000', {
+  transports: ['websocket', 'polling']
+});
 
 const main = () => {
     let [textYourMessage, setTextYourMessage] = useState([]);
@@ -15,6 +19,8 @@ const main = () => {
     let [textYourAddress, setTextYourAddress] = useState([]);
     let [textYourDesignation, setTextYourDesignation] = useState([]);
     let [question, setQuestion] = useState(0)
+
+    const [data, setData] = useState([]);
     
     async function fetchData(URI, queqstionValue) {
         if (queqstionValue == 0) {
@@ -23,9 +29,11 @@ const main = () => {
             setTextYourAddress("You can answer by typing or using voice recoder by clicking start");
             setTextYourDesignation("You can answer by typing or using voice recoder by clicking start");
         } else if (queqstionValue == 1) {
+            // socket.on('cpu', cpuPercent => {
+            //     setTextYourMessage(cpuPercent);
+            // });
             const request = await axios.get(URI);
             console.log(request.data);
-            setTextYourMessage(request.data);
             console.log("its working textYourMessage")
             return request.data;             
         } else if (queqstionValue == 2) {
@@ -53,44 +61,13 @@ const main = () => {
     
     useEffect(() => {           
         fetchData(requests.fetchAudioStreamToText, question);
+
+        socket.on('cpu', cpuPercent => {
+            setData(cpuPercent);
+            console.log(data)
+        });
+        
     }, [requests.fetchAudioStreamToText, question]);
-
-
-
-
-
-
-
-
-
-
-
-
-    // const socket = io("ws://localhost:4000");
-
-    // socket.on("connect", () => {
-    // // either with send()
-    // socket.send("Hello!");
-
-    // // or with emit() and custom event names
-    // socket.emit("salutations", "Hello!", { "mr": "john" }, Uint8Array.from([1, 2, 3, 4]));
-    // });
-
-    // // handle the event sent with socket.send()
-    // socket.on("message", data => {
-    // console.log(data);
-    // });
-
-    // // handle the event sent with socket.emit()
-    // socket.on("greetings", (elem1, elem2, elem3) => {
-    // console.log(elem1, elem2, elem3);
-    // });
-
-
-
-
-
-
 
 
 
@@ -112,11 +89,13 @@ const main = () => {
                         <a class="dropdown-item" href="#">Separated link</a>
                     </div>
                 </div>
+                <h1>cpu speed : {data.value}</h1>
                 <Form> 
                     <div class="questionarea">
                         <h4>Your Message?</h4>
                         <Form.Control  id="note-textarea" placeholder={textYourMessage} rows="6"></Form.Control>
                         <Button onClick={() => {setQuestion(1)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
+                        <h4>{textYourMessage}</h4>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
                     
