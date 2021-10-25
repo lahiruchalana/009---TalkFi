@@ -86,6 +86,7 @@ let tick = 0;
 
 
 
+            // can i use this method ////////////////////////////////////
             io.on('connection', client => {
               setInterval(() => {
                 client.emit('name', {
@@ -108,7 +109,7 @@ let tick = 0;
 
 
 
-            
+
             // res.json(`${data.results[0].alternatives[0].transcript}`)
             // res.json(`testing`)
           } else {

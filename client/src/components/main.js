@@ -40,10 +40,18 @@ const main = () => {
             // return request.data;             
         } else if (queqstionValue == 2) {
             // setTextYourName(request.data);
+            socket.on('cpu', TextOfSpeech => {
+                setTextYourName(TextOfSpeech.value);
+                console.log(TextOfSpeech.value)
+            });
             console.log("its working textYourName")             
             // return request.data;
         } else if (queqstionValue == 3) {
             // setTextYourAddress(request.data);
+            // socket.on('cpu', TextOfSpeech => {
+            //     setTextYourName(TextOfSpeech.value);
+            //     console.log(TextOfSpeech.value)
+            // });
             console.log("its working textYourAddress")             
             // return request.data;
         } else if (queqstionValue == 4) {
