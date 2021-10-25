@@ -22,56 +22,44 @@ const main = () => {
 
     const [data, setData] = useState([]);
     
-    async function fetchData(URI, queqstionValue) {
+    async function fetchData(queqstionValue) {
         if (queqstionValue == 0) {
-            setTextYourMessage("You can answer by typing or using voice recoder by clicking start");
-            setTextYourName("You can answer by typing or using voice recoder by clicking start");
-            setTextYourAddress("You can answer by typing or using voice recoder by clicking start");
-            setTextYourDesignation("You can answer by typing or using voice recoder by clicking start");
+            setTextYourMessage("You can answer using voice recoder by clicking start");
+            setTextYourName("You can answer using voice recoder by clicking start");
+            setTextYourAddress("You can answer using voice recoder by clicking start");
+            setTextYourDesignation("You can answer using voice recoder by clicking start");
         } else if (queqstionValue == 1) {
-            // socket.on('cpu', cpuPercent => {
-            //     setTextYourMessage(cpuPercent);
+            // socket.on("disconnect", () => {
+            //     console.log(socket.id); // undefined
             // });
-            const request = await axios.get(URI);
-            console.log(request.data);
+            socket.on('cpu', TextOfSpeech => {
+                setTextYourMessage(TextOfSpeech.value);
+                console.log(TextOfSpeech.value)
+            });
             console.log("its working textYourMessage")
-            return request.data;             
+            // return request.data;             
         } else if (queqstionValue == 2) {
-            const request = await axios.get(URI);
-            console.log(request.data);
-            setTextYourName(request.data);
+            // setTextYourName(request.data);
             console.log("its working textYourName")             
-            return request.data;
+            // return request.data;
         } else if (queqstionValue == 3) {
-            const request = await axios.get(URI);
-            console.log(request.data);
-            setTextYourAddress(request.data);
+            // setTextYourAddress(request.data);
             console.log("its working textYourAddress")             
-            return request.data;
+            // return request.data;
         } else if (queqstionValue == 4) {
-            const request = await axios.get(URI);
-            console.log(request.data);
-            setTextYourDesignation(request.data);
+            // setTextYourDesignation(request.data);
             console.log("its working textYourDesignation")             
-            return request.data;
+            // return request.data;
         } else {
             console.log("invalid question value")
         }
     }
     
     useEffect(() => {           
-        fetchData(requests.fetchAudioStreamToText, question);
 
-        socket.on('cpu', cpuPercent => {
-            setData(cpuPercent);
-            console.log(data)
-        });
+        fetchData(question);
         
-    }, [requests.fetchAudioStreamToText, question]);
-
-
-
-
+    }, [question]);
 
     return ( 
         <div>
@@ -89,13 +77,11 @@ const main = () => {
                         <a class="dropdown-item" href="#">Separated link</a>
                     </div>
                 </div>
-                <h1>cpu speed : {data.value}</h1>
                 <Form> 
                     <div class="questionarea">
                         <h4>Your Message?</h4>
                         <Form.Control  id="note-textarea" placeholder={textYourMessage} rows="6"></Form.Control>
                         <Button onClick={() => {setQuestion(1)}} id="start-record-btn" title="Start Recording" type="button" variant="outline-success">Start</Button>
-                        <h4>{textYourMessage}</h4>
                         <Button id="save-note-btn" title="Save Note" type="button" variant="outline-info">Save</Button>
                     </div>
                     
