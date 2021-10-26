@@ -7,11 +7,10 @@ import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css'
 
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
+import ws from 'ws'
 
-const socket = io('http://localhost:9000', {
-  transports: ['websocket', 'polling']
-});
+const client = new WebSocket('ws://localhost:9000');
 
 const main = () => {
     let [textYourMessage, setTextYourMessage] = useState([]);
@@ -19,55 +18,51 @@ const main = () => {
     let [textYourAddress, setTextYourAddress] = useState([]);
     let [textYourDesignation, setTextYourDesignation] = useState([]);
     let [question, setQuestion] = useState(0)
-
-    const [data, setData] = useState([]);
     
-    async function fetchData(queqstionValue) {
+    let [data, setData] = useState([]);
+    let [newText, setNewText] = useState([]);
+
+
+    
+    async function fetchData(queqstionValue, newText) {
         if (queqstionValue == 0) {
             setTextYourMessage("You can answer using voice recoder by clicking start");
             setTextYourName("You can answer using voice recoder by clicking start");
             setTextYourAddress("You can answer using voice recoder by clicking start");
             setTextYourDesignation("You can answer using voice recoder by clicking start");
         } else if (queqstionValue == 1) {
-            // socket.on("disconnect", () => {
-            //     console.log(socket.id); // undefined
-            // });
-            socket.on('cpu', TextOfSpeech => {
-                setTextYourMessage(TextOfSpeech.value);
-                console.log(TextOfSpeech.value)
-            });
+            setTextYourMessage(newText);
             console.log("its working textYourMessage")
-            // return request.data;             
         } else if (queqstionValue == 2) {
-            // setTextYourName(request.data);
-            socket.on('cpu', TextOfSpeech => {
-                setTextYourName(TextOfSpeech.value);
-                console.log(TextOfSpeech.value)
-            });
+            setTextYourName(newText);
             console.log("its working textYourName")             
-            // return request.data;
         } else if (queqstionValue == 3) {
             // setTextYourAddress(request.data);
-            // socket.on('cpu', TextOfSpeech => {
+            // socket.on('userAddress', TextOfSpeech => {
             //     setTextYourName(TextOfSpeech.value);
             //     console.log(TextOfSpeech.value)
             // });
             console.log("its working textYourAddress")             
-            // return request.data;
         } else if (queqstionValue == 4) {
             // setTextYourDesignation(request.data);
             console.log("its working textYourDesignation")             
-            // return request.data;
         } else {
             console.log("invalid question value")
         }
     }
     
     useEffect(() => {           
-
-        fetchData(question);
+        client.onopen = () => {
+            // client.send('hello server, i am client')
+        }
+        client.onmessage = (event) => {
+            console.log(event.data)
+            setNewText(event.data)
+        };
         
-    }, [question]);
+        fetchData(question, newText);
+
+    }, [question, newText]);
 
     return ( 
         <div>

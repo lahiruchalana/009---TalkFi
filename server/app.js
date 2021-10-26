@@ -7,7 +7,7 @@ var Cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var audioStreamToTextRouter = require('./routes/audioStreamToText');
-const server = require('http').createServer();////////////////////////// new added ///////////////////////////////////
+// const server = require('http').createServer();////////////////////////// new added ///////////////////////////////////
 const os = require('os-utils');////////////////////////// new added ///////////////////////////////////
 
 
@@ -31,21 +31,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(Cors());
 
 
-
-
-
-
 ////////////////////////// new added ///////////////////////////////////
-const io = require('socket.io')(server, {
-  transports: ['websocket', 'polling']
-});
+const ws = require('ws');
+const server = new ws.Server({
+  port: 9000
+})
+// const io = require('socket.io')(server, {
+//   transports: ['websocket', 'polling']
+// });
 
-server.listen(9000, () => {
-  console.log('Started in 9000');
-});
+// server.listen(9000, () => {
+//   console.log('Started in 9000');
+// });
 
 ///////////////////////////////////////////////////////////////////////////////////
-let tick = 0;
+// let tick = 0;
 // 1. listen for socket connections
 
     ////////////////////////// new added ///////////////////////////////////
@@ -71,45 +71,12 @@ let tick = 0;
         function getText() {
           if(data.results[0] && data.results[0].alternatives[0]) {
             console.log(`Transcription: ${data.results[0].alternatives[0].transcript}\n`)
-            io.on('connection', client => {
-              setInterval(() => {
-                client.emit('cpu', {
-                  Id: tick++,
-                  value: `${data.results[0].alternatives[0].transcript}`
-                });
-              }, 5000);
+            server.on('connection', (client) => {
+              client.on('message', (data) => {
+                console.log('received', data)
+              })
+              client.send(`${data.results[0].alternatives[0].transcript}`);
             });
-
-
-
-
-
-
-
-            // can i use this method ////////////////////////////////////
-            io.on('connection', client => {
-              setInterval(() => {
-                client.emit('name', {
-                  Id: tick++,
-                  value: `${data.results[0].alternatives[0].transcript}`
-                });
-              }, 5000);
-            });
-            io.on('connection', client => {
-              setInterval(() => {
-                client.emit('address', {
-                  Id: tick++,
-                  value: `${data.results[0].alternatives[0].transcript}`
-                });
-              }, 5000);
-            });
-
-
-
-
-
-
-
             // res.json(`${data.results[0].alternatives[0].transcript}`)
             // res.json(`testing`)
           } else {
