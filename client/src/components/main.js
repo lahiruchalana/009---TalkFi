@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from "../axios"
 import requests from "../api/index"
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './main.css'
-
-// import io from 'socket.io-client';
-import ws from 'ws'
 
 const client = new WebSocket('ws://localhost:9000');
 
@@ -18,11 +14,7 @@ const main = () => {
     let [textYourAddress, setTextYourAddress] = useState([]);
     let [textYourDesignation, setTextYourDesignation] = useState([]);
     let [question, setQuestion] = useState(0)
-    
-    let [data, setData] = useState([]);
     let [newText, setNewText] = useState([]);
-
-
     
     async function fetchData(queqstionValue, newText) {
         if (queqstionValue == 0) {
@@ -37,14 +29,10 @@ const main = () => {
             setTextYourName(newText);
             console.log("its working textYourName")             
         } else if (queqstionValue == 3) {
-            // setTextYourAddress(request.data);
-            // socket.on('userAddress', TextOfSpeech => {
-            //     setTextYourName(TextOfSpeech.value);
-            //     console.log(TextOfSpeech.value)
-            // });
+            setTextYourAddress(newText);
             console.log("its working textYourAddress")             
         } else if (queqstionValue == 4) {
-            // setTextYourDesignation(request.data);
+            setTextYourDesignation(newText);
             console.log("its working textYourDesignation")             
         } else {
             console.log("invalid question value")
@@ -61,7 +49,6 @@ const main = () => {
         };
         
         fetchData(question, newText);
-
     }, [question, newText]);
 
     return ( 

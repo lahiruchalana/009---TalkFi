@@ -53,6 +53,8 @@ const server = new ws.Server({
     const encoding = 'LINEAR16';
     const sampleRateHertz = 16000;
     const languageCode = 'en-US';
+
+    var arrayOfTextSpeech = [];
     
     const request = {
       config: {
@@ -70,15 +72,14 @@ const server = new ws.Server({
       .on('data', data => { 
         function getText() {
           if(data.results[0] && data.results[0].alternatives[0]) {
-            console.log(`Transcription: ${data.results[0].alternatives[0].transcript}\n`)
+            arrayOfTextSpeech.push(`${data.results[0].alternatives[0].transcript}`);
+            console.log(arrayOfTextSpeech.join(""))
             server.on('connection', (client) => {
               client.on('message', (data) => {
                 console.log('received', data)
               })
-              client.send(`${data.results[0].alternatives[0].transcript}`);
+              client.send(`${arrayOfTextSpeech.join("")}`);
             });
-            // res.json(`${data.results[0].alternatives[0].transcript}`)
-            // res.json(`testing`)
           } else {
             console.log('\n\nReached transcription time limit, press Ctrl+C\n')
           }
@@ -94,35 +95,13 @@ const server = new ws.Server({
         threshold: 0,
         verbose: false,
         recordProgram: 'rec', 
-        silence: '10.0',
+        silence: '0.0',
       })
       .stream()
       .on('error', console.error)
       .pipe(recognizeStream);
     
     console.log('Listening, press Ctrl+C to stop.');
-
-    // console.log(recorder.data)
-    // res.json({speechToTextValue})
-
-  ////////////////////////// new added ///////////////////////////////////
-
-    // 2. every second, emit a 'cpu' event to user
-    // os.cpuUsage(cpuPercent => {
-    //   client.emit('cpu', {
-    //     name: tick++,
-    //     value: cpuPercent
-    //   });
-    // });
-
-///////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////// new added ///////////////////////////////////
-
-
-
-
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -136,7 +115,6 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
